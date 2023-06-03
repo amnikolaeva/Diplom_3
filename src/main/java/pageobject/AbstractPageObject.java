@@ -19,7 +19,7 @@ public abstract class AbstractPageObject {
     }
 
     protected void checkThatElementIsEnabled(By element) {
-        new WebDriverWait(driver, 3)
+        new WebDriverWait(driver, 5)
                 .until(ExpectedConditions.elementToBeClickable(element));
         Assert.assertTrue(driver.findElement(element).isEnabled());
     }

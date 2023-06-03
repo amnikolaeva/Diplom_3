@@ -34,7 +34,16 @@ public class RegistrationWindow extends AbstractPageObject {
         driver.findElement(SELECTED_PASSWORD_FIELD).sendKeys("123456");
     }
 
+    public void inputIncorrectPasswordField() {
+        driver.findElement(PASSWORD_FIELD).click();
+        driver.findElement(SELECTED_PASSWORD_FIELD).sendKeys("1");
+    }
+
     public void clickRegistrationButton() {
         driver.findElement(REGISTRATION_BUTTON).click();
+    }
+
+    public void checkEnabledIncorrectPasswordField() {
+        checkThatElementIsEnabled(INCORRECT_PASSWORD);
     }
 }

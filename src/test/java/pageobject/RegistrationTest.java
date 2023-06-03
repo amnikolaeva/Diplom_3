@@ -39,4 +39,18 @@ public class RegistrationTest {
         objRegistration.clickRegistrationButton();
         Assert.assertTrue(objLogin.isEntranceButtonDisplayed());
     }
+
+    @Test
+    public void checkRegistrationWithIncorrectPassword() {
+        HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
+        objHomePage.clickAccountLogin();
+        LoginWindow objLogin = new LoginWindow(driver);
+        objLogin.clickRegistrationLink();
+        RegistrationWindow objRegistration = new RegistrationWindow(driver);
+        objRegistration.inputNameField();
+        objRegistration.inputEmailField();
+        objRegistration.inputIncorrectPasswordField();
+        objRegistration.clickRegistrationButton();
+        objRegistration.checkEnabledIncorrectPasswordField();
+    }
 }
