@@ -21,17 +21,17 @@ public class RegistrationWindow extends AbstractPageObject {
 
     public void inputNameField() {
         driver.findElement(NAME_FIELD).click();
-        driver.findElement(SELECTED_NAME_FIELD).sendKeys("kotevidze");
+        driver.findElement(SELECTED_NAME_FIELD).sendKeys("kotevidze1");
     }
 
-    public void inputEmailField() {
+    public void inputEmailField(String email) {
         driver.findElement(EMAIL_FIELD).click();
-        driver.findElement(SELECTED_EMAIL_FIELD).sendKeys("amnik21@yandex.ru");
+        driver.findElement(SELECTED_EMAIL_FIELD).sendKeys(email);
     }
 
-    public void inputPasswordField() {
+    public void inputPasswordField(String password) {
         driver.findElement(PASSWORD_FIELD).click();
-        driver.findElement(SELECTED_PASSWORD_FIELD).sendKeys("123456");
+        driver.findElement(SELECTED_PASSWORD_FIELD).sendKeys(password);
     }
 
     public void inputIncorrectPasswordField() {
@@ -45,5 +45,9 @@ public class RegistrationWindow extends AbstractPageObject {
 
     public void checkEnabledIncorrectPasswordField() {
         checkThatElementIsEnabled(INCORRECT_PASSWORD);
+    }
+
+    public void clickEntranceButton() {
+        driver.findElement(ENTRANCE_BUTTON).click();
     }
 }

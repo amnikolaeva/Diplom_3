@@ -5,13 +5,12 @@ import generator.UserGenerator;
 import model.User;
 import model.UserCredentials;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class LoginTest {
+public class ProfileTest {
 
     private WebDriver driver;
     private UserClient userClient;
@@ -41,53 +40,52 @@ public class LoginTest {
     }
 
     @Test
-    public void checkLoginAtHomePage() {
-        HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
-        objHomePage.clickAccountLogin();
-        LoginWindow objLogin = new LoginWindow(driver);
-        objLogin.inputEmailField(user.getEmail());
-        objLogin.inputPasswordField(user.getPassword());
-        objLogin.clickLoginButton();
-        Assert.assertTrue(objHomePage.isOrderButtonDisplayed());
-    }
-
-    @Test
-    public void checkLoginFromProfile() {
+    public void checkClickAtProfile() {
         HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
         objHomePage.clickProfileButton();
         LoginWindow objLogin = new LoginWindow(driver);
-        objLogin.inputEmailField(user.getEmail());
-        objLogin.inputPasswordField(user.getPassword());
-        objLogin.clickLoginButton();
-        Assert.assertTrue(objHomePage.isOrderButtonDisplayed());
+        objLogin.isEntranceButtonDisplayed();
     }
 
     @Test
-    public void checkLoginFromRegistrationForm() {
+    public void checkClickAtConstructor() {
         HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
         objHomePage.clickAccountLogin();
         LoginWindow objLogin = new LoginWindow(driver);
-        objLogin.clickRegistrationLink();
-        RegistrationWindow objRegistration = new RegistrationWindow(driver);
-        objRegistration.clickEntranceButton();
         objLogin.inputEmailField(user.getEmail());
         objLogin.inputPasswordField(user.getPassword());
         objLogin.clickLoginButton();
-        Assert.assertTrue(objHomePage.isOrderButtonDisplayed());
+        objHomePage.clickProfileButton();
+        ProfileWindow objProfile = new ProfileWindow(driver);
+        objProfile.clickConstructorButton();
+        objHomePage.isAssembleBurgerChapterDisplayed();
     }
 
     @Test
-    public void checkLoginFromRestorePasswordLink() {
+    public void checkClickAtLogo() {
         HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
         objHomePage.clickAccountLogin();
         LoginWindow objLogin = new LoginWindow(driver);
-        objLogin.clickRestorePasswordLink();
-        RestorePasswordWindow objRestorePassword = new RestorePasswordWindow(driver);
-        objRestorePassword.clickEntranceLink();
         objLogin.inputEmailField(user.getEmail());
         objLogin.inputPasswordField(user.getPassword());
         objLogin.clickLoginButton();
-        Assert.assertTrue(objHomePage.isOrderButtonDisplayed());
+        objHomePage.clickProfileButton();
+        ProfileWindow objProfile = new ProfileWindow(driver);
+        objProfile.clickLogoButton();
+        objHomePage.isAssembleBurgerChapterDisplayed();
+    }
+
+    @Test
+    public void checkLogout() {
+        HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
+        objHomePage.clickAccountLogin();
+        LoginWindow objLogin = new LoginWindow(driver);
+        objLogin.inputEmailField(user.getEmail());
+        objLogin.inputPasswordField(user.getPassword());
+        objLogin.clickLoginButton();
+        objHomePage.clickProfileButton();
+        ProfileWindow objProfile = new ProfileWindow(driver);
+        objProfile.clickLogoutButton();
+        objLogin.isEntranceButtonDisplayed();
     }
 }
-
