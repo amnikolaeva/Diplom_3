@@ -2,6 +2,8 @@ package pageobject;
 
 import client.UserClient;
 import generator.UserGenerator;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import model.User;
 import model.UserCredentials;
 import org.junit.After;
@@ -13,34 +15,39 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class RegistrationTest {
 
+    private static final String URL = "https://stellarburgers.nomoreparties.site/";
+    private static final String INCORRECT_PASSWORD = "1";
+
     private WebDriver driver;
     private User user;
     private UserClient userClient;
     private String accessToken;
 
     static {
-        System.setProperty("webdriver.chrome.driver", "/Users/annanikolaeva/Apps/WebDriver/bin/chromedriver");
-//        System.setProperty("webdriver.chrome.driver", "/Users/annanikolaeva/Apps/WebDriver/bin/yandexdriver");
+        System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER_PATH"));
     }
 
     @Before
+    @Description("Открывает страницу приложения, через API создает рандомного пользователя, авторизуется под пользователем, получает токен")
     public void setUp() {
         driver = new ChromeDriver();
-        driver.get("https://stellarburgers.nomoreparties.site/");
+        driver.get(URL);
         user = UserGenerator.getRandom();
         userClient = new UserClient();
-        userClient.create(user);
-        accessToken = userClient.login(UserCredentials.from(user))
-                .extract().path("accessToken");
     }
 
     @After
+    @Description("Выходит из браузера, через API удаляет созданного пользователя")
     public void teardown() {
         driver.quit();
-        userClient.delete(accessToken, UserCredentials.from(user));
+        if(accessToken != null) {
+            userClient.delete(accessToken, UserCredentials.from(user));
+        }
     }
 
     @Test
+    @DisplayName("Тест на успешную регистрацию")
+    @Description("Проверяет успешную регистрацию пользователя")
     public void checkSuccessRegistration() {
         HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
         objHomePage.clickAccountLogin();
@@ -52,9 +59,13 @@ public class RegistrationTest {
         objRegistration.inputPasswordField(user.getPassword());
         objRegistration.clickRegistrationButton();
         Assert.assertTrue(objLogin.isEntranceButtonDisplayed());
+        accessToken = userClient.login(UserCredentials.from(user))
+                .extract().path("accessToken");
     }
 
     @Test
+    @DisplayName("Тест на регистрацию с неверным паролем")
+    @Description("Проверяет появление ошибки 'Некорректный пароль' при регистрации пользователя с некорректным паролем")
     public void checkRegistrationWithIncorrectPassword() {
         HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
         objHomePage.clickAccountLogin();
@@ -63,8 +74,10 @@ public class RegistrationTest {
         RegistrationWindow objRegistration = new RegistrationWindow(driver);
         objRegistration.inputNameField();
         objRegistration.inputEmailField(user.getEmail());
-        objRegistration.inputIncorrectPasswordField();
+        objRegistration.inputPasswordField(INCORRECT_PASSWORD);
         objRegistration.clickRegistrationButton();
         objRegistration.checkEnabledIncorrectPasswordField();
+        accessToken = userClient.login(UserCredentials.from(user))
+                .extract().path("accessToken");
     }
 }

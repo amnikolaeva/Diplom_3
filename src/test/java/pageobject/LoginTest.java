@@ -2,6 +2,8 @@ package pageobject;
 
 import client.UserClient;
 import generator.UserGenerator;
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import model.User;
 import model.UserCredentials;
 import org.junit.After;
@@ -13,20 +15,22 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class LoginTest {
 
+    private static final String URL = "https://stellarburgers.nomoreparties.site/";
+
     private WebDriver driver;
     private UserClient userClient;
     private User user;
     private String accessToken;
 
     static {
-        System.setProperty("webdriver.chrome.driver", "/Users/annanikolaeva/Apps/WebDriver/bin/chromedriver");
-//        System.setProperty("webdriver.chrome.driver", "/Users/annanikolaeva/Apps/WebDriver/bin/yandexdriver");
+        System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER_PATH"));
     }
 
     @Before
+    @Description("Открывает страницу приложения, через API создает рандомного пользователя, авторизуется под пользователем, получает токен")
     public void setUp() {
         driver = new ChromeDriver();
-        driver.get("https://stellarburgers.nomoreparties.site/");
+        driver.get(URL);
         user = UserGenerator.getRandom();
         userClient = new UserClient();
         userClient.create(user);
@@ -35,12 +39,15 @@ public class LoginTest {
     }
 
     @After
+    @Description("Выходит из браузера, через API удаляет созданного пользователя")
     public void teardown() {
         driver.quit();
         userClient.delete(accessToken, UserCredentials.from(user));
     }
 
     @Test
+    @DisplayName("Тест на вход на главной странице")
+    @Description("Проверяет вход пользователя по кнопке Вход на главной странице")
     public void checkLoginAtHomePage() {
         HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
         objHomePage.clickAccountLogin();
@@ -52,6 +59,8 @@ public class LoginTest {
     }
 
     @Test
+    @DisplayName("Тест на вход из личного кабинета")
+    @Description("Проверяет вход пользователя по кнопке Вход из личного кабинета")
     public void checkLoginFromProfile() {
         HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
         objHomePage.clickProfileButton();
@@ -63,6 +72,8 @@ public class LoginTest {
     }
 
     @Test
+    @DisplayName("Тест на вход из формы регистрации")
+    @Description("Проверяет вход пользователя по кнопке Вход из формы регистрации")
     public void checkLoginFromRegistrationForm() {
         HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
         objHomePage.clickAccountLogin();
@@ -77,6 +88,8 @@ public class LoginTest {
     }
 
     @Test
+    @DisplayName("Тест на вход из формы восстановления пароля")
+    @Description("Проверяет вход пользователя по кнопке Вход из формы восстановления пароля")
     public void checkLoginFromRestorePasswordLink() {
         HomePageStellarBurger objHomePage = new HomePageStellarBurger(driver);
         objHomePage.clickAccountLogin();

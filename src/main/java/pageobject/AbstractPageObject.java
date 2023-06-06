@@ -10,7 +10,7 @@ public abstract class AbstractPageObject {
 
     protected WebDriver driver;
 
-    public AbstractPageObject(WebDriver driver) {
+    protected AbstractPageObject(WebDriver driver) {
         this.driver = driver;
     }
 
