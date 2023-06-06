@@ -76,8 +76,8 @@ public class RegistrationTest {
         objRegistration.inputEmailField(user.getEmail());
         objRegistration.inputPasswordField(INCORRECT_PASSWORD);
         objRegistration.clickRegistrationButton();
-        objRegistration.checkEnabledIncorrectPasswordField();
         accessToken = userClient.login(UserCredentials.from(user))
                 .extract().path("accessToken");
+        objRegistration.checkEnabledIncorrectPasswordField();
     }
 }
