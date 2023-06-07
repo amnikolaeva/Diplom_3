@@ -2,6 +2,7 @@ package pageobject;
 
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
+import model.Browser;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +17,7 @@ public class ConstructorTest {
     private WebDriver driver;
 
     static {
-        System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER_PATH"));
+        System.setProperty("webdriver.chrome.driver", Browser.getPath(System.getenv("BROWSER_NAME")));
     }
 
     @Before

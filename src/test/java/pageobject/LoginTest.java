@@ -4,6 +4,7 @@ import client.UserClient;
 import generator.UserGenerator;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
+import model.Browser;
 import model.User;
 import model.UserCredentials;
 import org.junit.After;
@@ -23,7 +24,7 @@ public class LoginTest {
     private String accessToken;
 
     static {
-        System.setProperty("webdriver.chrome.driver", System.getenv("CHROME_DRIVER_PATH"));
+        System.setProperty("webdriver.chrome.driver", Browser.getPath(System.getenv("BROWSER_NAME")));
     }
 
     @Before
