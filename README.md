@@ -1,3 +1,3 @@
-# Diplom_2
-# Diplom_2
-# Diplom_2
+# Diplom_3
+
+Для запуска тестов необходимо указать переменную среды BROWSER_NAME - имя браузера (Chrome или Yandex).
